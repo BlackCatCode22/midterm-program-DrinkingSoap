@@ -1,27 +1,68 @@
-# spr23midterm
+# CppZoo
+// Mid-Term Project
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <ctime>
+#include <cstdlib>
 
-## Instructions
-
-Animals are arriving to your zoo from zoos and parks around the world and you must organize the animals into habitats and make a record of each animal's age, sex, species, color, and weight. You must name each arriving animal. 
-
-Write a program in your choice of language (Python, Java, C++) that performs the following tasks:
-
-1. Use fileIO to read the input file (arrivingAnimals.txt) 
-2. Write a fuction or method that calculates a birthday from the originating data. 
-3. Write a function or method to create a uniqueID for each animal.
-4. Write a function or method to name each new animal using animalNames.txt
-5. Write functions or methods to calculate a birthday, color, weight, and origin for each new animal.   
-6. Organize the animals into habitats (each species must have its own habitat). 
-7. Use fileIO to produce an output text file similiar to (sampleOutput.txt)
-
-Use 2D arrays and 1D arrays to organize your zoo. 
-
-You may use structs, classes, lists, linked lists if you like, but these data structures are not part of the first half of our class. We will use these programming techniques for our final priograms. 
-
-Information will arrive in the following format with an unknown number of lines:
-
-6 year old female lion, born in spring, tan color, 300 pounds, from Zanzibar, Tanzania
-12 year old female lion, born in winter, dark tan color, 375 pounds, from KopeLion, Tanzania
+using namespace std;
 
 
+const string HYENA = "hyena";
+const string LION = "lion";
+const string BEAR = "bear";
+const string TIGER = "tiger";
+const string HYENA_HABITAT = "Hyena Habitat";
+const string LION_HABITAT = "Lion Habitat";
+const string BEAR_HABITAT = "Bear Habitat";
+const string TIGER_HABITAT = "Tiger Habitat";
 
+
+const string HYENA_NAMES[11] = {"Shenzi", "Banzai", "Ed", "Zig", "Bud", "Lou", "Kamari", "Wema", "Nne", "Madoa", "Prince Nevarah"};
+const string LION_NAMES[12] = {"Scar", "Mufasa", "Simba", "Kiara", "King", "Drooper", "Kimba", "Nala", "Leo", "Samson", "Elsa", "Cecil"};
+const string BEAR_NAMES[10] = {"Yogi", "Smokey", "Paddington", "Lippy", "Bungle", "Baloo", "Rupert", "Winnie the Pooh", "Snuggles", "Bert"};
+const string TIGER_NAMES[10] = {"Tony", "Tigger", "Amber", "Cosimia", "Cuddles", "Dave", "Jiba", "Rajah", "Rayas", "Ryker"};
+
+
+string* parseAnimalData(string data) {
+    string* animalData = new string[6];
+    stringstream ss(data);
+    string temp;
+
+   
+    getline(ss, temp, ' ');
+    animalData[0] = temp; // age
+    getline(ss, temp, ' ');
+    animalData[1] = temp; // sex
+    getline(ss, temp, ' ');
+    animalData[2] = temp; // species
+    getline(ss, temp, ',');
+    animalData[3] = temp.substr(14); // color
+    getline(ss, temp, ',');
+    animalData[4] = temp.substr(1); // weight
+    getline(ss, temp, ',');
+    animalData[5] = temp.substr(5); // origin
+
+    return animalData;
+}
+
+
+string calculateBirthDate() {
+    time_t now = time(0);
+    tm *ltm = localtime(&now);
+
+    int birthYear = rand() % 4 + ltm->tm_year - 3; // Random year between 3 and 0 years ago
+    int birthMonth = rand() % 12 + 1; // Random month
+    int birthDay = rand() % 28 + 1; // Random day
+
+    ostringstream oss;
+    oss << "birth date " << (birthMonth < 10 ? "0" : "") << birthMonth << "/"
+        << (birthDay < 10 ? "0" : "") << birthDay << "/" << birthYear + 1900;
+
+    return oss.str();
+}
+
+// Function to create and return a unique animal ID
+string create
